@@ -1,25 +1,54 @@
-import logo from './logo.svg';
-import './App.css';
+import React,{useState,useEffect} from 'react'
+import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import { AddProducts } from './Components/AddProducts'
+import {NotFound} from './Components/NotFound'
+import {Signup} from './Components/Signup'
+import {Login} from './Components/Login'
+import { Home } from './Components/Home'
+import {fs} from './Config/Config'
 
-function App() {
+// function GetDataFromFirestore(){  
+//   const [products, setProducts]=useState([]);
+//   useEffect(()=>{   
+//     const unsubscribe = fs.collection('Products').onSnapshot(snapshot=>{
+//       const newProduct = snapshot.docs.map(doc=>({
+//         ID: doc.id,
+//         ...doc.data()
+//       }))
+//       setProducts(newProduct);
+//     })
+//     return () => unsubscribe && unsubscribe()
+//   },[])
+//   return products
+// }
+
+export const App = () => {
+
+  // const data = GetDataFromFirestore();
+  // console.log(data); 
+
+  // const [products, setProducts]=useState([]);
+
+  // useEffect(()=>{
+  //   const unsubscribe = fs.collection('Products').onSnapshot(snapshot=>{
+  //     setProducts(snapshot.docs.map(doc=>({
+  //       ID: doc.id,...doc.data()})));
+  //   })
+  //   return ()=>unsubscribe && unsubscribe()
+  // },[])
+
+  // console.log(products);  
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <BrowserRouter>
+      <Switch>
+        <Route exact path="/" component={()=><Home/>}/>
+        <Route path="/signup" component={Signup}/>
+        <Route path="/login" component={Login}/>
+        <Route path="/add-products" component={()=><AddProducts/>}/>
+        <Route component={NotFound}/>
+      </Switch>
+    </BrowserRouter>
+  )
 }
-
-export default App;
+export default App
