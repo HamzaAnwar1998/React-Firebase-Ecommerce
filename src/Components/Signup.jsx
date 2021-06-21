@@ -16,8 +16,8 @@ export const Signup = () => {
 
     const handleSignup=(e)=>{
         e.preventDefault();
-        auth.createUserWithEmailAndPassword(email,password).then(()=>{
-            fs.collection('users').add({
+        auth.createUserWithEmailAndPassword(email,password).then((credentials)=>{
+            fs.collection('users').doc(credentials.user.uid).set({
                 FullName: fullName,
                 Email: email,
                 Password: password

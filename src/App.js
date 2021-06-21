@@ -5,38 +5,48 @@ import {NotFound} from './Components/NotFound'
 import {Signup} from './Components/Signup'
 import {Login} from './Components/Login'
 import { Home } from './Components/Home'
-import {fs} from './Config/Config'
+import { Cart } from './Components/Cart'
+import {fs,auth} from './Config/Config'
+import CartContextProvider from './Global/CartContext'
 
-function GetDataFromFirestore(){  
-  const [products, setProducts]=useState([]);
-  useEffect(()=>{   
-    const unsubscribe = fs.collection('Products').onSnapshot(snapshot=>{
-      const newProduct = snapshot.docs.map(doc=>({
-        ID: doc.id,
-        ...doc.data()
-      }))
-      setProducts(newProduct);
+// getting current user
+function GetCurrentUser(){
+  const [user,setUser]=useState(null);
+  useEffect(()=>{
+    const unsubscribe=auth.onAuthStateChanged(user=>{
+      if(user){
+        fs.collection('users').doc(user.uid).get().then(snapshot=>{
+          setUser(snapshot.data().FullName);
+        })
+      }
+      else{
+        console.log('user is not logged in to retrive user');
+        setUser(null);
+      }
     })
-    return () => unsubscribe()
+    return () => unsubscribe && unsubscribe()   
   },[])
-  return products
+  return user
 }
 
 export const App = () => {
 
-  const data = GetDataFromFirestore();
-  console.log(data); 
-  
+  const user = GetCurrentUser();
+  // console.log(user);
+
   return (
-    <BrowserRouter>
-      <Switch>
-        <Route exact path="/" component={()=><Home/>}/>
-        <Route path="/signup" component={Signup}/>
-        <Route path="/login" component={Login}/>
-        <Route path="/add-products" component={()=><AddProducts/>}/>
-        <Route component={NotFound}/>
-      </Switch>
-    </BrowserRouter>
+    <CartContextProvider>
+      <BrowserRouter>
+        <Switch>
+          <Route exact path="/" component={()=><Home user={user}/>}/>
+          <Route path="/signup" component={Signup}/>
+          <Route path="/login" component={Login}/>
+          <Route path="/add-products" component={()=><AddProducts/>}/>
+          <Route path='/cart' component={()=><Cart user={user}/>}/>
+          <Route component={NotFound}/>
+        </Switch>
+      </BrowserRouter>
+    </CartContextProvider>
   )
 }
 export default App

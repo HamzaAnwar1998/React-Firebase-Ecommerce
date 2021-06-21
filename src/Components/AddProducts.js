@@ -45,12 +45,14 @@ export const AddProducts = () => {
                     description,
                     price: Number(price),
                     url
-                }).then(()=>{
-                    console.log('added');
+                }).then(()=>{                    
                     setSuccessMsg('Product added successfully');
                     setTitle('');
                     setDescription('');
-                    setPrice('');
+                    setPrice('');                   
+                    document.getElementById('file').value = '';
+                    setUploadError('');
+                    setImageError('');
                     setTimeout(()=>{
                         setSuccessMsg('');
                     },3000)
@@ -85,7 +87,7 @@ export const AddProducts = () => {
                 onChange={(e)=>setPrice(e.target.value)} value={price}></input>
                 <br></br>
                 <label>Upload Product Image</label>
-                <input type="file" className='form-control' required
+                <input type="file" id="file" className='form-control' required
                 onChange={handleImg}></input>
                 {imageError&&<>
                     <br></br>
