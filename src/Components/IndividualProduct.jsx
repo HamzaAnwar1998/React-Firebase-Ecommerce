@@ -1,12 +1,20 @@
-import React,{useContext} from 'react'
-import {CartContext} from '../Global/CartContext'
+import React,{memo,useCallback} from 'react'
+import {useHistory} from 'react-router-dom'
+import {auth} from '../Config/Config'
 
-export const IndividualProduct = ({individualProduct}) => {
+export const IndividualProduct = ({individualProduct,addToCart}) => {
 
-    const {dispatch}=useContext(CartContext);
-
-    const handleAddToCart=()=>{        
-        dispatch({type:'ADD_TO_CART',ID:individualProduct.ID,individualProduct})
+    const history = useHistory();   
+   
+    const handleAddToCart=()=>{               
+        auth.onAuthStateChanged(user=>{
+            if(user){
+                addToCart(individualProduct);               
+            }
+            else{
+                history.push('/login');
+            }
+        })        
     }
 
     return (
@@ -16,8 +24,10 @@ export const IndividualProduct = ({individualProduct}) => {
             </div>
             <div className='product-text title'>{individualProduct.title}</div>
             <div className='product-text description'>{individualProduct.description}</div>
-            <div className='product-text price'>Rs {individualProduct.price}</div>
-            <div className='btn btn-danger btn-md cart-btn' onClick={handleAddToCart}>ADD TO CART</div>
+            <div className='product-text price'>$ {individualProduct.price}</div>
+            <div className='btn btn-danger btn-md cart-btn' call={handleAddToCart}>ADD TO CART</div>
         </div>
     )
 }
+
+export default memo(IndividualProduct)

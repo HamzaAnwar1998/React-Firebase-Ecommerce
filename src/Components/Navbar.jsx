@@ -3,14 +3,16 @@ import logo from '../Images/logo.png'
 import {Link} from 'react-router-dom'
 import { auth } from '../Config/Config'
 import {useHistory} from 'react-router-dom'
+import {Icon} from 'react-icons-kit'
+import {shoppingCart} from 'react-icons-kit/feather/shoppingCart'
 
-export const Navbar = ({user}) => {
+export const Navbar = ({user,totalQty}) => {
 
     const history = useHistory();
 
     const handleLogout=()=>{
         auth.signOut().then(()=>{
-            history.push('/');
+            history.push('/login');
         })
     }
 
@@ -28,7 +30,12 @@ export const Navbar = ({user}) => {
                 </>}
                 {user&&<>
                     <div><Link className='navlink' to="/">{user}</Link></div>
-                    <div><Link className='navlink' to="/cart">Cart</Link></div>
+                    <div className='cart-menu-btn'>
+                        <Link className='navlink' to="/cart">
+                            <Icon icon={shoppingCart} size={20}/>
+                        </Link>
+                        <span className='cart-indicator'>{totalQty}</span>
+                    </div>
                     <div className='btn btn-danger btn-md'
                     onClick={handleLogout}>LOGOUT</div>
                 </>}                  
