@@ -9,4 +9,4 @@ export const Products = ({products, addToCart}) => {
     ))
 }
 
-export default React.memo(Products);
+export default Products;

@@ -6,7 +6,7 @@ import {useHistory} from 'react-router-dom'
 import {Icon} from 'react-icons-kit'
 import {shoppingCart} from 'react-icons-kit/feather/shoppingCart'
 
-export const Navbar = ({user,totalQty}) => {
+export const Navbar = ({user, totalQty}) => {    
 
     const history = useHistory();
 

@@ -30,7 +30,7 @@ export const Signup = () => {
                 setTimeout(()=>{
                     history.push('/login');
                     setSuccessMsg('');
-                },5000)
+                },3000)
             }).catch(err=>setErrorMsg(err.message))
         }).catch(err=>setErrorMsg(err.message))
     }
