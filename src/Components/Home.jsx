@@ -3,7 +3,23 @@ import { auth, fs } from '../Config/Config';
 import { Navbar } from './Navbar';
 import { Products } from './Products';
 
-export const Home = () => {
+export const Home = (props) => {
+
+  // getting current user uid
+  function GetUID(){
+    const [uid, setUid]=useState(null);
+    useEffect(()=>{
+      auth.onAuthStateChanged(user=>{
+        if(user){
+          setUid(user.uid);
+        }
+      })
+    },[])
+    return uid
+  }
+
+  // getting uid
+  const uid = GetUID();
 
   // getting current user function
   function GetCurrentUser() {
@@ -78,24 +94,23 @@ export const Home = () => {
   // defining variable
   let Product;
   // add to cart
-  const addToCart = (product) => {
+  const addToCart = (product) => {   
     const check = cartProducts.find((myProduct) => myProduct.ID === product.ID);
     if (check) {
       console.log('match found');
-    } else {
+    } else {     
       Product = product;
       Product['qty'] = 1;
-      Product['TotalProductPrice'] = Product.qty * Product.price;      
-      auth.onAuthStateChanged((user) => {
-        if (user) {
-          fs.collection('Cart ' + user.uid)
-            .doc(product.ID)
-            .set(Product)
-            .then(() => {
-              console.log('successfully added to cart');
-            });
-        }
-      });
+      Product['TotalProductPrice'] = Product.qty * Product.price;
+      if(uid!==null){
+        console.log(uid);
+        fs.collection('Cart ' + uid).doc(product.ID).set(Product).then(()=>{
+          console.log('successfully added to cart');
+        })
+      }
+      else{
+        props.history.push('/login');
+      }
     }
   };
   

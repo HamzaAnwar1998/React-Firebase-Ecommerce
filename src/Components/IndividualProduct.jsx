@@ -6,12 +6,8 @@ export const IndividualProduct = ({individualProduct,addToCart}) => {
 
     const history = useHistory();   
    
-    const handleAddToCart = () => {
-        if (auth.currentUser !== null) {
-          addToCart(individualProduct);
-        } else {
-          history.push('/login');
-        }
+    const handleAddToCart = () => {       
+        addToCart(individualProduct);
     };
 
     return (
