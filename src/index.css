@@ -16,6 +16,14 @@
   justify-content: space-between;
 }
 
+@media(max-width: 450px){
+  .btn-box{
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
 .success-msg{
   width: 100%;
   padding: 14px;
@@ -44,6 +52,13 @@
   background-color: #f6f6f6;  
 }
 
+@media(max-width: 450px){
+  .navbar{
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
 .navbar .logo{
   width: 150px;
   height: auto;
@@ -62,8 +77,23 @@
   align-items: center;
 }
 
+@media(max-width: 450px){
+  .navbar .rightside{
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 20px;
+    margin-right: 0px;    
+  }
+}
+
 .navbar .rightside div{
   margin: 0px 10px;  
+}
+
+@media(max-width: 450px){
+  .navbar .rightside div{
+    margin: 10px 0px;    
+  }
 }
 
 .navbar .rightside div .navlink{

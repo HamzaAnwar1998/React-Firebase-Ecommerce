@@ -1,10 +1,6 @@
 import React from 'react'
-import {useHistory} from 'react-router-dom'
-import {auth} from '../Config/Config'
 
 export const IndividualProduct = ({individualProduct,addToCart}) => {
-
-    const history = useHistory();   
    
     const handleAddToCart = () => {       
         addToCart(individualProduct);
