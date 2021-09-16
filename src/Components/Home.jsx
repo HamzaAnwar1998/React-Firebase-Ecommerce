@@ -103,7 +103,7 @@ export const Home = (props) => {
       Product['qty'] = 1;
       Product['TotalProductPrice'] = Product.qty * Product.price;
       if(uid!==null){
-        console.log(uid);
+        // console.log(uid);
         fs.collection('Cart ' + uid).doc(product.ID).set(Product).then(()=>{
           console.log('successfully added to cart');
         })
