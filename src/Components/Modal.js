@@ -25,18 +25,7 @@ export const Modal = ({TotalPrice,totalQty,hideModal}) => {
 
     // cash on delivery function
     const handleCashOnDelivery=async(e)=>{
-        e.preventDefault();
-        hideModal(); 
-        history.push('/');     
-        toast.success('Your order has been placed successfully', {
-            position: 'top-right',
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: false,
-            progress: undefined,
-          });
+        e.preventDefault();       
         const uid = auth.currentUser.uid;       
         const userData = await fs.collection('users').doc(uid).get();       
         await fs.collection('Buyer-Personal-Info').add({
@@ -55,7 +44,18 @@ export const Modal = ({TotalPrice,totalQty,hideModal}) => {
                 data
             );
             await fs.collection('Cart ' + uid).doc(snap.id).delete();                              
-        }       
+        }
+        hideModal(); 
+        history.push('/');     
+        toast.success('Your order has been placed successfully', {
+            position: 'top-right',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: false,
+            progress: undefined,
+          });       
     }
 
     return (
